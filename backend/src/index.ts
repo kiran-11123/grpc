@@ -35,10 +35,27 @@ function addPerson(call , callback){
     callback(null , person)
 }
 
+
+//@ts-ignore
+function getPersonByName(call , callback){
+   
+    const name = call.request.name;
+   const person = PERSONS.find(x => x.name ===name)
+   callback(null ,name);
+
+   
+    
+}
+
+//const app = express()
 const server = new grpc.Server();
 
+//app.use("/api/v1/user" , userHandler)
+//app.use("/api/v1/todo" , todoHandler)
 server.addService((personProto.AddressBookService as ServiceClientConstructor).service ,{addPerson : addPerson})
 
+
+//app.listen()
 server.bindAsync('0.0.0.0:50051' ,grpc.ServerCredentials.createInsecure() ,()=>{
     server.start();
 })
